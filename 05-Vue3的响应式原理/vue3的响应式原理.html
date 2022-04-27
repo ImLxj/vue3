@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let person = {
+        name: '张三',
+        age: 18
+      }
+
+      // 模拟Vue2中响应式原理，。
+      /*  let p = {}
+      Object.defineProperty(p, 'name', {
+        get() {
+          return person.name
+        },
+        set(value) {
+          console.log('页面被修改了')
+          person.name = value
+        }
+      }) */
+
+      // 模拟Vue3中响应式原理，使用Proxy代理对象 使用Reflect反射对象
+      const p = new Proxy(person, {
+        get(target, propName) {
+          return Reflect.get(target, propName)
+        },
+        set(target, propName, value) {
+          console.log('我要更新页面了')
+          Reflect.set(target, propName, value)
+        },
+        deleteProperty(target, propName) {
+          return Reflect.deleteProperty(target, propName)
+        }
+      })
+    </script>
+  </body>
+</html>
